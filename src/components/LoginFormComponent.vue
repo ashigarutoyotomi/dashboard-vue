@@ -1,4 +1,6 @@
 <template>
+  <img src="@/assets/logo.png" alt="" width="30%" />
+  Login the account
   <h3 v-if="errors">{{ errors }}</h3>
   <el-form :model="form" label-width="auto" style="max-width: 600px">
     <el-form-item label="EMail">
@@ -14,7 +16,7 @@
       <el-input v-model="form.password" maxlength="50" type="password" required value="123" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button type="primary" @click="onSubmit">Login</el-button>
     </el-form-item>
   </el-form>
 </template>
