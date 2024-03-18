@@ -16,10 +16,10 @@
         <span>Employees</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="1">Employees Page</el-menu-item>
+        <el-menu-item index="1" v-for="(name, link) in pagesLinks" :key="name.name"
+          ><router-link to="{{ name.link }}">{{ name.link }}</router-link></el-menu-item
+        >
       </el-menu-item-group>
-      <el-menu-item index="1">Departments</el-menu-item>
-      <el-menu-item index="1">Stats</el-menu-item>
     </el-sub-menu>
     <el-menu-item index="1">
       <el-menu-item index="1" @click="onLogout"
@@ -33,6 +33,11 @@
 import { ref } from 'vue'
 import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 import axios from 'axios'
+const pagesLinks: array = [
+  { pageName: 'Employees', link: '/employees' },
+  { pageName: 'Departments', link: '/departments' },
+  { PageName: 'Stats', link: '/stats' }
+]
 const onLogout = async () => {
   try {
     const response = await axios
@@ -42,8 +47,6 @@ const onLogout = async () => {
           // alert(response.data.token)
           axios.defaults.headers.common['Authorization'] = ''
           router.push('/login')
-        } else {
-          return false
         }
       })
   } catch (e) {

@@ -13,7 +13,7 @@
       />
     </el-form-item>
     <el-form-item label="Activity">
-      <el-input v-model="form.password" maxlength="50" type="password" required value="123" />
+      <el-input v-model="form.password" maxlength="50" type="password" required />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">Login</el-button>
@@ -26,10 +26,16 @@ import { reactive, ref } from 'vue'
 import axios from 'axios'
 import router from '@/router'
 // do not use same email with ref
+
+interface AuthForm {
+  password: string
+  email: string
+  user: object
+}
 const form = reactive({
   email: 'admin@proton.com',
   password: '123',
-  user: {}
+  user: null
 })
 const errors = ref({})
 const onSubmit = async () => {
@@ -53,7 +59,6 @@ const onSubmit = async () => {
     console.log(e)
     if (e.response.status === 422) {
       errors.value = e.response['data']['message']
-      return false
     }
 
     form.email = ''
