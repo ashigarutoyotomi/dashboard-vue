@@ -42,10 +42,13 @@ const form = reactive({
   user: {}
 })
 const errors = ref({})
+interface responseModel {
+  user: Array<string>
+}
 const onSubmit = async () => {
   try {
     const response = await axios
-      .post(import.meta.env.VITE_API_URL + '/register', {
+      .post<responseModel>(import.meta.env.VITE_API_URL + '/register', {
         email: form.email,
         password: form.password,
         name: form.name

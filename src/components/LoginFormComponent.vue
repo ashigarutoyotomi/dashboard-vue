@@ -30,18 +30,30 @@ import router from '@/router'
 interface AuthForm {
   password: string
   email: string
-  user: object
+  user: {
+    name: string
+    email: string
+    password: string
+  }
 }
-const form = reactive({
+const form = reactive<AuthForm>({
   email: 'admin@proton.com',
   password: '123',
-  user: null
+  user: {
+    name: '',
+    email: '',
+    password: ''
+  }
 })
 const errors = ref({})
+interface responseModel {
+  user: Array<string>
+  token: string
+}
 const onSubmit = async () => {
   try {
     const response = await axios
-      .post(import.meta.env.VITE_API_URL + '/login', {
+      .post<responseModel>(import.meta.env.VITE_API_URL + '/login', {
         email: form.email,
         password: form.password
       })

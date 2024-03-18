@@ -16,8 +16,8 @@
         <span>Employees</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="1" v-for="(name, link) in pagesLinks" :key="name.name"
-          ><router-link to="{{ name.link }}">{{ name.link }}</router-link></el-menu-item
+        <el-menu-item index=":index" v-for="(menu, index) in menuItems" :key="menu.id"
+          ><router-link :to="menu.link">{{ menu.pageName }}</router-link></el-menu-item
         >
       </el-menu-item-group>
     </el-sub-menu>
@@ -33,10 +33,10 @@
 import { ref } from 'vue'
 import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 import axios from 'axios'
-const pagesLinks: array = [
+const menuItems: Array<object> = [
   { pageName: 'Employees', link: '/employees' },
   { pageName: 'Departments', link: '/departments' },
-  { PageName: 'Stats', link: '/stats' }
+  { pageName: 'Stats', link: '/stats' }
 ]
 const onLogout = async () => {
   try {
