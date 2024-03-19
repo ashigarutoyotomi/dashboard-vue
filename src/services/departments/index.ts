@@ -1,6 +1,6 @@
 import http from '../api'
-import { APIResponse } from '../types'
-import { Department, InputCreateDepartment, InputUpdateDepartment } from './types'
+import type { APIResponse } from '../types'
+import type { Department, InputCreateDepartment, InputUpdateDepartment } from './types'
 
 async function getDepartments() {
   return await http.get<APIResponse<Department[]>>('departments')

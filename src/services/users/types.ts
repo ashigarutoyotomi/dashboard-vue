@@ -8,3 +8,7 @@ export type InputCreateUser = {
   email: string
   password: string
 }
+export type InputLoginUser = {
+  email: string
+  password: string
+}

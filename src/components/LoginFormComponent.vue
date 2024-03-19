@@ -28,8 +28,12 @@ import axios from 'axios'
 import router from '@/router'
 import { useTokenStore } from '@/stores/token'
 import { API } from '@/services'
-import { InputCreateUser } from '@/services/users/types'
+import type { InputLoginUser } from '@/services/users/types'
+import { useUserStore } from '@/stores/users'
+import users from '@/services/users'
+import Route from '@/shares/const/Route'
 const store = useTokenStore()
+const userStore = useUserStore()
 const form = reactive<AuthForm>({
   email: 'admin@proton.com',
   password: '123',
@@ -40,33 +44,14 @@ const form = reactive<AuthForm>({
   }
 })
 const errors = ref({})
-const data = InputCreateUser()
-const onSubmit = async () => {
-  await API.users.loginUser({ email: form.email, password: form.password })
-  try {
-    const response = await axios
-      .post<responseModel>(import.meta.env.VITE_API_URL + '/login', {
-        email: form.email,
-        password: form.password
-      })
-      .then((response) => {
-        if (response.status == 200) {
-          // alert(response.data.token)
-          axios.defaults.headers.common['Authorization'] = `"Bearer ${response.data.token}"`
-          form.user = response.data.user
-          router.push('/')
-        } else {
-          return false
-        }
-      })
-  } catch (e) {
-    console.log(e)
-    if (e.response && e.response.status === 422) {
-      errors.value = e.response['data']['message']
-    }
-
-    form.email = ''
-    form.password = ''
-  }
+const data: InputLoginUser = { email: form.email, password: form.password }
+const onSubmit = () => {
+  const response = API.users.loginUser(data)
+  // console.log(response)
+  response.then((data) => {
+    store.set(data.data.token)
+    userStore.initUser(data.data.user)
+    router.push(Route.HOME_PAGE)
+  })
 }
 </script>

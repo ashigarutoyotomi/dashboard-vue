@@ -1,6 +1,6 @@
 export default {
   HOME_PAGE: '/home',
-  LOGIN_PAGE: '/login',
+  LOGIN_PAGE: '/',
   REGISTER_PAGE: '/register',
   EMPLOYEES_PAGE: '/employees',
   STATS_PAGE: '/stats',

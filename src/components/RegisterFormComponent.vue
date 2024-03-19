@@ -9,7 +9,7 @@
         maxlength="30"
         required
         type="email"
-        aria-placeholder="admin@proton.com"
+        placeholder="admin@proton.com"
       />
     </el-form-item>
     <el-form-item label="Name">
@@ -27,10 +27,12 @@
     <el-form-item>
       <el-button type="primary" @click="onSubmit">Register</el-button>
     </el-form-item>
+    <router-link :to="Route.LOGIN_PAGE">Login now</router-link>
   </el-form>
 </template>
 
 <script lang="ts" setup>
+import Route from '@/shares/const/Route'
 import { reactive, ref } from 'vue'
 import axios from 'axios'
 import router from '@/router'

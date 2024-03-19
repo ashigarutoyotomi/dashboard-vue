@@ -9,6 +9,12 @@ import 'element-plus/dist/index.css'
 import axios from 'axios'
 import { useTokenStore } from './stores/token'
 import Route from './shares/const/Route'
+
+const app = createApp(App)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+app.use(createPinia())
 const store = useTokenStore()
 axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT
 axios.interceptors.request.use((config) => {
@@ -31,11 +37,6 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-const app = createApp(App)
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
-}
-app.use(createPinia())
 app.use(router)
 app.use(ElementPlus)
 app.mount('#app')

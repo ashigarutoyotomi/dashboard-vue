@@ -1,6 +1,6 @@
 import http from '../api'
-import { APIResponse } from '../types'
-import { User, InputCreateUser } from './types'
+import type { APIResponse } from '../types'
+import type { User, InputCreateUser, InputLoginUser } from './types'
 
 // async function getUsers() {
 //   return await http.get<APIResponse<User[]>>('school')
@@ -17,7 +17,7 @@ async function createUser(input: InputCreateUser) {
 // async function updateUser(input: InputUpdateUser) {
 //   return await http.put<APIResponse<boolean>>('school', input)
 // }
-async function loginUser(input: InputCreateUser) {
+async function loginUser(input: InputLoginUser) {
   return await http.post<APIResponse<User>>('login', input)
 }
 async function logoutUser() {
