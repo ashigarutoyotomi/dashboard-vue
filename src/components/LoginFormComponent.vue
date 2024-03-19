@@ -35,8 +35,8 @@ import Route from '@/shares/const/Route'
 const store = useTokenStore()
 const userStore = useUserStore()
 const form = reactive<AuthForm>({
-  email: 'admin@proton.com',
-  password: '123',
+  email: '',
+  password: '',
   user: {
     name: '',
     email: '',
@@ -44,14 +44,21 @@ const form = reactive<AuthForm>({
   }
 })
 const errors = ref({})
-const data: InputLoginUser = { email: form.email, password: form.password }
+
 const onSubmit = () => {
+  const data: InputLoginUser = { email: form.email, password: form.password }
   const response = API.users.loginUser(data)
   // console.log(response)
   response.then((data) => {
     store.set(data.data.token)
     userStore.initUser(data.data.user)
     router.push(Route.HOME_PAGE)
+  })
+  response.catch((data) => {
+    // console.log(data)
+    if (data.response.status == 422) {
+      errors.value = data.response.data['message']
+    }
   })
 }
 </script>

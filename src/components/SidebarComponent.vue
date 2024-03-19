@@ -3,6 +3,8 @@
     <el-radio-button :value="false">expand</el-radio-button>
     <el-radio-button :value="true">collapse</el-radio-button>
   </el-radio-group>
+  <img src="@/assets/logo.png" alt="" width="30%" />
+  Howdy, {{ user.name }}
   <el-menu
     default-active="2"
     class="el-menu-vertical-demo"
@@ -31,19 +33,29 @@
 
 <script lang="ts" setup>
 import { API } from '@/services'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 import axios from 'axios'
 import Route from '@/shares/const/Route'
+import { useUserStore } from '@/stores/users'
+import type { User } from '@/services/users/types'
+import { computed } from 'vue'
+import users from '@/services/users'
 const menuItems: Array<object> = [
   { pageName: 'Employees', link: Route.EMPLOYEES_PAGE },
   { pageName: 'Departments', link: Route.DEPARTMENTS_PAGE },
   { pageName: 'Stats', link: Route.STATS_PAGE }
 ]
+
 const onLogout = async () => {
+  const userStore = useUserStore()
   await API.users.logoutUser()
+  userStore.flushUser()
   console.log(API)
 }
+
+const userStore = useUserStore()
+const user = computed(() => userStore.user)
 const isCollapse = ref(true)
 const handleOpen = (key: string, keyPath: string[]) => {
   // console.log(key, keyPath)

@@ -32,43 +32,46 @@
 </template>
 
 <script lang="ts" setup>
+import { API } from '@/services'
 import Route from '@/shares/const/Route'
 import { reactive, ref } from 'vue'
 import axios from 'axios'
 import router from '@/router'
+import { useUserStore } from '@/stores/users'
+import type { InputCreateUser } from '@/services/users/types'
 // do not use same email with ref
-const form = reactive({
-  email: '',
+const form = reactive<AuthForm>({
+  email: 'admin@proton.com',
   password: '',
-  name: '',
-  user: {}
+  user: {
+    name: '',
+    email: '',
+    password: ''
+  }
 })
+
+const userStore = useUserStore()
 const errors = ref({})
 interface responseModel {
   user: Array<string>
 }
-const onSubmit = async () => {
-  try {
-    const response = await axios
-      .post<responseModel>(import.meta.env.VITE_API_URL + '/register', {
-        email: form.email,
-        password: form.password,
-        name: form.name
-      })
-      .then((response) => {
-        if (response.status == 201) {
-          form.user = response.data.user
-          router.push('/login')
-        } else {
-          return false
-        }
-      })
-  } catch (e) {
-    console.log(e)
-    if (e.response.status === 422) {
-      errors.value = e.response['data']['message']
-      return false
+const onSubmit = () => {
+  const data: InputCreateUser = { email: form.email, password: form.password, name: form.name }
+  const response = API.users.createUser(data)
+  // console.log(response)
+  response.then((data) => {
+    // console.log(data)
+    if (data.status == 201) {
+      userStore.initUser(data.data.user)
+      // console.log(data.data)
+      router.push(Route.LOGIN_PAGE)
     }
-  }
+  })
+  response.catch((data) => {
+    // console.log(data)
+    if (data.response.status == 422) {
+      errors.value = data.response.data['message']
+    }
+  })
 }
 </script>
