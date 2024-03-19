@@ -30,28 +30,19 @@
 </template>
 
 <script lang="ts" setup>
+import { API } from '@/services'
 import { ref } from 'vue'
 import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
 import axios from 'axios'
+import Route from '@/shares/const/Route'
 const menuItems: Array<object> = [
-  { pageName: 'Employees', link: '/employees' },
-  { pageName: 'Departments', link: '/departments' },
-  { pageName: 'Stats', link: '/stats' }
+  { pageName: 'Employees', link: Route.EMPLOYEES_PAGE },
+  { pageName: 'Departments', link: Route.DEPARTMENTS_PAGE },
+  { pageName: 'Stats', link: Route.STATS_PAGE }
 ]
 const onLogout = async () => {
-  try {
-    const response = await axios
-      .post(import.meta.env.VITE_API_URL + '/logout', {})
-      .then((response) => {
-        if (response.status == 200) {
-          // alert(response.data.token)
-          axios.defaults.headers.common['Authorization'] = ''
-          router.push('/login')
-        }
-      })
-  } catch (e) {
-    console.log(e)
-  }
+  await API.users.logoutUser()
+  console.log(API)
 }
 const isCollapse = ref(true)
 const handleOpen = (key: string, keyPath: string[]) => {

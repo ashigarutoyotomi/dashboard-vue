@@ -11,13 +11,20 @@ import { User, InputCreateUser } from './types'
 // }
 
 async function createUser(input: InputCreateUser) {
-  return await http.post<APIResponse<User>>('school', input)
+  return await http.post<APIResponse<User>>('register', input)
 }
 
 // async function updateUser(input: InputUpdateUser) {
 //   return await http.put<APIResponse<boolean>>('school', input)
 // }
-
+async function loginUser(input: InputCreateUser) {
+  return await http.post<APIResponse<User>>('login', input)
+}
+async function logoutUser() {
+  return await http.post<APIResponse<User>>('logout')
+}
 export default {
-  createUser
+  createUser,
+  logoutUser,
+  loginUser
 }

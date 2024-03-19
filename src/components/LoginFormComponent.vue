@@ -9,7 +9,7 @@
         maxlength="30"
         required
         type="email"
-        value="admin@proton.com"
+        placeholder="admin@proton.com"
       />
     </el-form-item>
     <el-form-item label="Activity">
@@ -18,6 +18,7 @@
     <el-form-item>
       <el-button type="primary" @click="onSubmit">Login</el-button>
     </el-form-item>
+    <router-link to="/register">Register now</router-link>
   </el-form>
 </template>
 
@@ -25,17 +26,10 @@
 import { reactive, ref } from 'vue'
 import axios from 'axios'
 import router from '@/router'
-// do not use same email with ref
-
-interface AuthForm {
-  password: string
-  email: string
-  user: {
-    name: string
-    email: string
-    password: string
-  }
-}
+import { useTokenStore } from '@/stores/token'
+import { API } from '@/services'
+import { InputCreateUser } from '@/services/users/types'
+const store = useTokenStore()
 const form = reactive<AuthForm>({
   email: 'admin@proton.com',
   password: '123',
@@ -46,11 +40,9 @@ const form = reactive<AuthForm>({
   }
 })
 const errors = ref({})
-interface responseModel {
-  user: Array<string>
-  token: string
-}
+const data = InputCreateUser()
 const onSubmit = async () => {
+  await API.users.loginUser({ email: form.email, password: form.password })
   try {
     const response = await axios
       .post<responseModel>(import.meta.env.VITE_API_URL + '/login', {
@@ -69,7 +61,7 @@ const onSubmit = async () => {
       })
   } catch (e) {
     console.log(e)
-    if (e.response.status === 422) {
+    if (e.response && e.response.status === 422) {
       errors.value = e.response['data']['message']
     }
 
