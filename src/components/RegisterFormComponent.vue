@@ -33,11 +33,11 @@
 
 <script lang="ts" setup>
 import { API } from '@/services'
-import Route from '@/shares/const/Route'
+import Route from '@/router/constants'
 import { reactive, ref } from 'vue'
 import axios from 'axios'
 import router from '@/router'
-import { useUserStore } from '@/stores/users'
+import { useUserStore } from '@/stores/modules/users'
 import type { InputCreateUser } from '@/services/users/types'
 // do not use same email with ref
 const form = reactive<AuthForm>({
