@@ -52,13 +52,16 @@ const onSubmit = () => {
       const responseData = data.data
       authenticationStore.setToken(responseData.token)
       userStore.initUser(responseData.user)
+      router.push({ name: RouteName.HOME_PAGE })
     })
-    router.push({ name: RouteName.HOME_PAGE })
+    response.catch((data) => {
+      // console.log(data)
+      if (data.response.status == 422) {
+        errors.value = data.response.data['message']
+      }
+    })
   } catch (error) {
-    console.log(error)
-    if (error.response.status == 422) {
-      errors.value = data.response.data['message']
-    }
+    console.log(error.response)
   }
 }
 </script>

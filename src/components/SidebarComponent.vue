@@ -4,7 +4,7 @@
     <el-radio-button :value="true">collapse</el-radio-button>
   </el-radio-group>
   <img src="@/assets/logo.png" alt="" width="30%" />
-  Howdy, {{ user.name }}
+  <h2 v-if="user.name">Howdy, {{ user.name }}</h2>
   <el-menu
     default-active="2"
     class="el-menu-vertical-demo"
@@ -39,17 +39,20 @@ import { useAuthenticationStore } from '@/stores/modules/authentication'
 import type { User } from '@/services/users/types'
 import { computed } from 'vue'
 import { useUserStore } from '@/stores/modules/users'
+import router from '@/router'
 const menuItems: Array<object> = [
   { pageName: 'Employees', link: RouteName.EMPLOYEES_PAGE },
   { pageName: 'Departments', link: RouteName.DEPARTMENTS_PAGE },
-  { pageName: 'Stats', link: RouteName.STATS_PAGE }
+  { pageName: 'Stats', link: RouteName.STATS_PAGE },
+  { pageName: 'Video', link: RouteName.VIDEO_PAGE }
 ]
 
 const onLogout = async () => {
   const authenticationStore = useAuthenticationStore()
   await API.users.logoutUser()
   authenticationStore.removeToken()
-  console.log(API)
+  // console.log(API)
+  router.push(RouteName.LOGIN_PAGE)
 }
 
 const userStore = useUserStore()

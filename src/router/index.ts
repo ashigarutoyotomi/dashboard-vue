@@ -27,17 +27,17 @@ const router = createRouter({
     {
       path: '/departments',
       name: RouteName.DEPARTMENTS_PAGE,
-      component: () => import('../views/RegisterView.vue')
+      component: () => import('../views/DepartmentsView.vue')
     },
     {
       path: '/stats',
       name: RouteName.STATS_PAGE,
-      component: () => import('../views/RegisterView.vue')
+      component: () => import('../views/StatsView.vue')
     },
     {
       path: '/video',
       name: RouteName.VIDEO_PAGE,
-      component: () => import('../views/RegisterView.vue')
+      component: () => import('../views/VideoView.vue')
     },
     {
       path: '/employees',
