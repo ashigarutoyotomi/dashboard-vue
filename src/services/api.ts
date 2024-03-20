@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { useTokenStore } from '@/stores/token'
+import { useAuthenticationStore } from '@/stores/modules/authentication'
 import router from '@/router'
-import Route from '@/shares/const/Route'
+import { RouteName } from '@/router/constants'
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 })
@@ -14,7 +14,7 @@ instance.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401) {
         // Redirect to login page
-        router.push(Route.LOGIN_PAGE)
+        router.push(RouteName.LOGIN_PAGE)
       }
     }
     return Promise.reject(error)
@@ -22,8 +22,8 @@ instance.interceptors.response.use(
 )
 
 instance.interceptors.request.use((config) => {
-  const store = useTokenStore()
-  const token = store.token
+  const authenticationStore = useAuthenticationStore()
+  const token = authenticationStore.token
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`

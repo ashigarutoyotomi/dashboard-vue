@@ -34,23 +34,21 @@
 <script lang="ts" setup>
 import { API } from '@/services'
 import { reactive, ref } from 'vue'
-import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
-import axios from 'axios'
-import Route from '@/shares/const/Route'
-import { useUserStore } from '@/stores/users'
+import { RouteName } from '@/router/constants'
+import { useAuthenticationStore } from '@/stores/modules/authentication'
 import type { User } from '@/services/users/types'
 import { computed } from 'vue'
-import users from '@/services/users'
+import { useUserStore } from '@/stores/modules/users'
 const menuItems: Array<object> = [
-  { pageName: 'Employees', link: Route.EMPLOYEES_PAGE },
-  { pageName: 'Departments', link: Route.DEPARTMENTS_PAGE },
-  { pageName: 'Stats', link: Route.STATS_PAGE }
+  { pageName: 'Employees', link: RouteName.EMPLOYEES_PAGE },
+  { pageName: 'Departments', link: RouteName.DEPARTMENTS_PAGE },
+  { pageName: 'Stats', link: RouteName.STATS_PAGE }
 ]
 
 const onLogout = async () => {
-  const userStore = useUserStore()
+  const authenticationStore = useAuthenticationStore()
   await API.users.logoutUser()
-  userStore.flushUser()
+  authenticationStore.removeToken()
   console.log(API)
 }
 
@@ -66,3 +64,4 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style></style>
+@/stores/modules/users

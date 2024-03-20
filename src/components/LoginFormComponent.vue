@@ -23,19 +23,18 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
+import { useAuthenticationStore } from '@/stores/modules/authentication'
 import { reactive, ref } from 'vue'
-import axios from 'axios'
-import router from '@/router'
-import { useTokenStore } from '@/stores/token'
 import { API } from '@/services'
 import type { InputLoginUser } from '@/services/users/types'
-import { useUserStore } from '@/stores/users'
-import users from '@/services/users'
-import Route from '@/shares/const/Route'
-const store = useTokenStore()
+import { useUserStore } from '@/stores/modules/users'
+import { RouteName } from '@/router/constants'
+const router = useRouter()
+const authenticationStore = useAuthenticationStore()
 const userStore = useUserStore()
 const form = reactive<AuthForm>({
-  email: '',
+  email: 'admin@proton.com',
   password: '',
   user: {
     name: '',
@@ -47,18 +46,19 @@ const errors = ref({})
 
 const onSubmit = () => {
   const data: InputLoginUser = { email: form.email, password: form.password }
-  const response = API.users.loginUser(data)
-  // console.log(response)
-  response.then((data) => {
-    store.set(data.data.token)
-    userStore.initUser(data.data.user)
-    router.push(Route.HOME_PAGE)
-  })
-  response.catch((data) => {
-    // console.log(data)
-    if (data.response.status == 422) {
+  try {
+    const response = API.users.loginUser(data)
+    response.then((data) => {
+      const responseData = data.data
+      authenticationStore.setToken(responseData.token)
+      userStore.initUser(responseData.user)
+    })
+    router.push({ name: RouteName.HOME_PAGE })
+  } catch (error) {
+    console.log(error)
+    if (error.response.status == 422) {
       errors.value = data.response.data['message']
     }
-  })
+  }
 }
 </script>

@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { User } from '../../services/users/types'
-import { API } from '../../services'
-import type { APIResponse } from '../../services/types'
+import type { User } from '../../../services/users/types'
+import { API } from '../../../services'
+import type { APIResponse } from '../../../services/types'
 export const useEmployeeStore = defineStore('userStore', () => {
   // async function dispatchGetEmployees(): Promise<APIResponse<null>> {
   //   try {

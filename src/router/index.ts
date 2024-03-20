@@ -1,51 +1,48 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import EmployeesView from '../views/EmployeesView.vue'
+import { RouteName } from '@/router/constants'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'login',
+      name: RouteName.LOGIN_PAGE,
       component: () => import('../views/LoginView.vue')
     },
     {
       path: '/home',
-      name: 'home',
-      component: HomeView
+      name: RouteName.HOME_PAGE,
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/about',
-      name: 'about',
+      name: RouteName.ABOUT_PAGE,
       component: () => import('../views/AboutView.vue')
     },
 
     {
       path: '/register',
-      name: 'register',
+      name: RouteName.REGISTER_PAGE,
       component: () => import('../views/RegisterView.vue')
     },
     {
       path: '/departments',
-      name: 'departments',
+      name: RouteName.DEPARTMENTS_PAGE,
       component: () => import('../views/RegisterView.vue')
     },
     {
       path: '/stats',
-      name: 'stats',
+      name: RouteName.STATS_PAGE,
       component: () => import('../views/RegisterView.vue')
     },
     {
       path: '/video',
-      name: 'video',
+      name: RouteName.VIDEO_PAGE,
       component: () => import('../views/RegisterView.vue')
     },
     {
       path: '/employees',
-      name: 'employees',
-      component: EmployeesView
+      name: RouteName.EMPLOYEES_PAGE,
+      component: () => import('../views/EmployeesView.vue')
     }
   ]
 })
