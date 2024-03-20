@@ -4,7 +4,7 @@
     <el-radio-button :value="true">collapse</el-radio-button>
   </el-radio-group>
   <img src="@/assets/logo.png" alt="" width="30%" />
-  <h2 v-if="user.name">Howdy, {{ user.name }}</h2>
+  <h2 v-if="user?.name">Howdy, {{ user?.name }}</h2>
   <el-menu
     default-active="2"
     class="el-menu-vertical-demo"

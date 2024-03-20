@@ -2,11 +2,10 @@ import axios from 'axios'
 import { useAuthenticationStore } from '@/stores/modules/authentication'
 import router from '@/router'
 import { RouteName } from '@/router/constants'
+
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 })
-
-instance.defaults.baseURL = import.meta.env.VITE_API_URL
 
 instance.interceptors.response.use(
   (response) => response,
