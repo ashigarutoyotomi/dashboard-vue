@@ -1,6 +1,8 @@
 <template>
   <SidebarComponent />
-  <router-link :to="RouteName.EMPLOYEE_STORE"></router-link>
+  <router-link :to="RouteName.EMPLOYEES_STORE" replace>
+    <el-button type="primary" plain>Create new employee</el-button></router-link
+  >
   <el-table :data="tableData" stripe style="width: 100%">
     <el-table-column prop="id" label="#" />
     <el-table-column prop="sex" label="Sex" width="" />
@@ -22,25 +24,37 @@
         <el-dialog v-model="dialogFormVisible" title="Edit the employee" width="500">
           <el-form :model="form">
             <el-form-item label="First name" label-width="50%">
-              <el-input v-model="form.first_name" autocomplete="off" />
+              <el-input
+                v-model="form.first_name"
+                autocomplete="off"
+                :value="scope.row.first_name"
+              />
             </el-form-item>
             <el-form-item label="Last name" label-width="50%">
-              <el-input v-model="form.last_name" autocomplete="off" />
+              <el-input :value="scope.row.last_name" v-model="form.last_name" autocomplete="off" />
             </el-form-item>
             <el-form-item label="Mid name" label-width="50%">
-              <el-input v-model="form.mid_name" autocomplete="off" />
+              <el-input :value="scope.row.mid_name" v-model="form.mid_name" autocomplete="off" />
             </el-form-item>
             <el-form-item label="Birth day" label-width="50%">
-              <el-date-picker v-model="form.bday" autocomplete="off" />
+              <el-date-picker :value="scope.row.bday" v-model="form.bday" autocomplete="off" />
             </el-form-item>
             <el-form-item label="Employeed day" label-width="50%">
-              <el-date-picker v-model="form.employeed_day" autocomplete="off" />
+              <el-date-picker
+                v-model="form.employeed_day"
+                autocomplete="off"
+                :value="scope.row.employeed_day"
+              />
             </el-form-item>
             <el-form-item label="fired day" label-width="50%">
-              <el-date-picker v-model="form.fired_day" autocomplete="off" />
+              <el-date-picker
+                v-model="form.fired_day"
+                autocomplete="off"
+                :value="scope.row.fired_day"
+              />
             </el-form-item>
             <el-form-item label="Department" label-width="50%">
-              <el-select v-model="form.department" placeholder="Please select a zone">
+              <el-select v-model="form.department_id" placeholder="Please select a zone">
                 <el-option
                   v-for="department in departments"
                   :key="department.id"
@@ -63,13 +77,13 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="Age" label-width="50%">
-              <el-input-number v-model="form.age" autocomplete="off" />
+              <el-input-number :value="scope.row.age" v-model="form.age" autocomplete="off" />
             </el-form-item>
           </el-form>
           <template #footer>
             <div class="dialog-footer">
               <el-button @click="dialogFormVisible = false">Cancel</el-button>
-              <el-button type="primary" @click="dialogFormVisible = false"> Confirm </el-button>
+              <el-button type="primary" @click="editEmployee(scope.row.id)"> Confirm </el-button>
             </div>
           </template>
         </el-dialog>
@@ -126,15 +140,13 @@ import { API } from '@/services'
 import type { InputLoginUser } from '@/services/users/types'
 import { useUserStore } from '@/stores/modules/users'
 import users from '@/services/users'
-import RouteName from '@/routes/constants'
+import { RouteName } from '@/router/constants'
 import { onMounted } from 'vue'
 import EmployeesView from '@/views/EmployeesView.vue'
+import { ElMessage } from 'element-plus'
 const departments = ref([])
 const dialogVisible = ref(false)
-const store = useTokenStore()
-const userStore = useUserStore()
-let tableData: Array<any> = ref([])
-const dialogTableVisible = ref(false)
+const tableData: Array<any> = ref([])
 const dialogFormVisible = ref(false)
 const form = reactive({
   first_name: '',
@@ -143,16 +155,22 @@ const form = reactive({
   bday: '',
   sex: '',
   age: '',
-  resource: '',
-  department: '',
-  status: '',
+  department_id: 0,
+  status: 0,
   employeed_day: '',
   fired_day: ''
 })
 
-const editEmployee = (id: number) => {}
+const editEmployee = (id: number) => {
+  ElMessage.success('Edit employee id: ' + id)
+  dialogFormVisible.value = false
+}
 const deleteEmployee = (id: number) => {
-  alert('Deleting employee:' + id)
+  API.employees.deleteEmployee(id)
+  tableData.value.filter((employee) => {
+    return employee.id != id
+  })
+  ElMessage.success('Delete employee id: ' + id)
 }
 const confirmEvent = (id) => {
   deleteEmployee(id)
