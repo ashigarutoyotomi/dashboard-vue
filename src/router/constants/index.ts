@@ -6,5 +6,6 @@ export enum RouteName {
   STATS_PAGE = 'stats',
   VIDEO_PAGE = 'video',
   DEPARTMENTS_PAGE = 'departments',
-  ABOUT_PAGE = 'about'
+  ABOUT_PAGE = 'about',
+  EMPLOYEES_STORE = 'employees/store'
 }
