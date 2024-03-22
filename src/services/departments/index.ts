@@ -14,8 +14,8 @@ async function createDepartment(input: InputCreateDepartment) {
   return await http.post<APIResponse<Department>>('departments', input)
 }
 
-async function updateDepartment(input: InputUpdateDepartment) {
-  return await http.put<APIResponse<boolean>>('departments', input)
+async function updateDepartment(input: InputUpdateDepartment, id: number) {
+  return await http.put<APIResponse<boolean>>(`departments/${id}`, input)
 }
 
 export default {

@@ -38,8 +38,8 @@
       </el-form-item>
       <el-form-item label="Status" label-width="50%">
         <el-radio-group v-model="form.status">
-          <el-radio value="male">active</el-radio>
-          <el-radio value="female">inactive</el-radio>
+          <el-radio value="1" aria-checked>active</el-radio>
+          <el-radio value="0">inactive</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Age" label-width="50%">
@@ -72,7 +72,7 @@ const showDialog = defineModel<boolean>('showDialog', { required: true })
 const form = shallowReactive<InputUpdateEmployee>(Object.assign({}, props.employee))
 
 const editEmployee = () => {
-  API.employees.updateEmployee(form)
+  API.employees.updateEmployee(form, props.employee.id)
   ElMessage.success('Edit employee id: ' + props.employee.id)
 }
 </script>

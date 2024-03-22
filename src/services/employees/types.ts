@@ -15,6 +15,7 @@ export type Employee = {
 export type InputCreateEmployee = {
   first_name: string
   last_name: string
+  mid_name: string
   bday: string
   sex: string
   age: number
