@@ -15,7 +15,7 @@ async function createEmployee(input: InputCreateEmployee) {
 }
 
 async function updateEmployee(input: InputUpdateEmployee) {
-  return await http.put<APIResponse<boolean>>('employees', input)
+  return await http.put<APIResponse<boolean>>('employees/{id}', input)
 }
 
 export default {

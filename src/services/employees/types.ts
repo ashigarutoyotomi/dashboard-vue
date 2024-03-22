@@ -10,6 +10,7 @@ export type Employee = {
   file_id: string
   created_at: string
   updated_at: string
+  id: number
 }
 export type InputCreateEmployee = {
   first_name: string
